@@ -1,19 +1,3 @@
-import sys
-
-def set_dirs(folders):
-    # Кореневі дректорії компа
-    base = folders['base']
-    
-    # Конфігурація робочих директорій
-    code_dir = base + folders['vaults_storage'] + folders['code_dir']
-    data_dir = base + folders['vaults_storage'] + folders['data_dir']
-    
-    # надання доступу до фолдера коду
-    sys.path.insert(0, code_dir)
-    
-    return code_dir, data_dir
-
-
 import obsidian_util as ou
 
 folders = {
@@ -23,20 +7,25 @@ folders = {
     'data_dir': 'NECU/'
     }
 
-code_dir, data_dir = set_dirs(folders)
-
-# Константи алгоритму
-config_file = code_dir + 'config.yml'
-config_gs_file = code_dir + 'config_gs.yml'
-cred_file = code_dir + 'credentials.json'
-
 # Яку таблицю зчитуємо
 table = 'persons'
-# Зчитування конфігураційного словника
-conf = ou.read_yaml_config(config_file, config_gs_file)
-# Створення URL таблиці
-table_url = ou.get_gs_table_url(conf, table)
-# Зчитування таблиці Google Sheets за її URL
-df = ou.read_gs_by_url(table_url, cred_file)
 
-print(df)
+# Встановлюємо повні шляхи до фолдерів коду і даних
+code_dir, data_dir = ou.set_dirs(folders)
+
+# Зчитуємо вхідні дані з таблиці Гугл Форми і опис конвертування до Обсідіан
+dfgf, TBL_STRUCT = ou.read_check_gs_table(table, code_dir)
+
+import pandas as pd
+
+dfob_cols = {'title': TBL_STRUCT['title']} | TBL_STRUCT['label_refs'] 
+dfob_cols_i = {v: k for k, v in dfob_cols.items()}
+
+dfob = dfgf.copy()
+dfob.rename(columns=dfob_cols_i, inplace=True)
+dfob['Позначка часу'] = pd.to_datetime(dfob['Позначка часу'])
+
+
+#dfob_cols |= TBL_STRUCT['label_vals']
+
+#if TBL_STRUCT['sections']:
