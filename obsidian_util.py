@@ -5,16 +5,23 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 
-def read_yaml_config(config_file: str) -> dict:
-    ''' Зчитування конфігураційного словника '''
+def read_yaml_config(config_file: str='config.yml', 
+                     config_gs_file: str='config_gs.yml') -> dict:
+    ''' Зчитування конфігураційних словників '''
     with open(config_file) as f:
         conf = yaml.load(f, Loader=yaml.SafeLoader)
+    with open(config_gs_file) as f:
+        conf_gs = yaml.load(f, Loader=yaml.SafeLoader)
+    for k in conf.keys():
+        conf[k]['gs_id'] = conf_gs['gs_id'][k]
+    conf = {'tables': conf}
+    conf['gs_domain'] = conf_gs['gs_domain']
     return conf
 
 def get_gs_table_url(conf: dict, table: str) -> str:
     ''' Створення URL таблиці `table` (Google Sheets) з конфігураційного 
     словника `conf` '''
-    tables = ['teams', 'orgs', 'persons', 'proj']
+    tables = list(conf['tables'])
     if table not in tables:
         sys.exit(f'Таблиця `{table}` відсутня серед таблиць {tables}')
     return conf['gs_domain'] + conf['tables'][table]['gs_id'] + '/edit#gid=0'

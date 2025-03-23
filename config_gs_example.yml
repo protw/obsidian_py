@@ -1,0 +1,6 @@
+gs_domain: https://docs.google.com/spreadsheets/d/
+gs_id:
+    teams: <google-sheets-id-for-teams-table>
+    orgs: <google-sheets-id-for-orgs-table>
+    persons: <google-sheets-id-for-persons-table>
+    proj: <google-sheets-id-for-proj-table>
