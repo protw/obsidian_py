@@ -1,3 +1,5 @@
+import pandas as pd
+
 import obsidian_util as ou
 
 folders = {
@@ -8,7 +10,7 @@ folders = {
     }
 
 # Яку таблицю зчитуємо
-table = 'persons'
+table = 'teams'
 
 # Встановлюємо повні шляхи до фолдерів коду і даних
 code_dir, data_dir = ou.set_dirs(folders)
@@ -20,16 +22,17 @@ dfgf, TBL_STRUCT = ou.read_check_gs_table(table, code_dir)
 # вхідного датафрейму: "Прізвище Ім'я По-батькові" -> "Ім'я Прізвище"
 dfgf = ou.pib2ip(dfgf, TBL_STRUCT)
 
-import pandas as pd
+# Перетворення значень стовпчиків зі списку `TBL_STRUCT['linked']` з 
+# вхідного датафрейму у внутрішнє Обсідіан-посилання: name -> [[name]]
+dfgf = ou.make_linked(dfgf, TBL_STRUCT)
 
-# Пряма і зворотня мапи (мітки нотаток Обсідіан) <--> (назви стовпчиків таблиці Гугл Форми)
-dfob_cols = TBL_STRUCT['label_refs']
-dfob_cols_i = {v: k for k, v in dfob_cols.items()}
+# Копія таблиці зі скороченими назвами стовпчиків
+dfob, dfob_cols = ou.dfgf2dfob(dfgf, TBL_STRUCT)
 
-dfob = dfgf.copy()
-dfob.rename(columns=dfob_cols_i, inplace=True)
-if 'title' not in dfob.columns:
-    dfob['title'] = dfgf[dfob_cols['title']]
+# Перевірка відсутності дублікатів імен нотаток
+ou.check_duplicates(dfob, dfgf, table, dfob_cols)
+
+#dfob_cols['title']
 dfob['Позначка часу'] = pd.to_datetime(dfob['Позначка часу'])
 
 

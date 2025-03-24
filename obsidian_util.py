@@ -179,3 +179,36 @@ def pib2ip(dfgf: pd.DataFrame, TBL_STRUCT: dict) -> pd.DataFrame:
         dfgf[pn] = names
     return dfgf
 
+def make_linked(dfgf: pd.DataFrame, TBL_STRUCT: dict) -> pd.DataFrame:
+    ''' Перетворення значень стовпчиків зі списку `TBL_STRUCT['linked']` з 
+    вхідного датафрейму у внутрішнє Обсідіан-посилання: name -> [[name]] 
+    '''
+    for name in TBL_STRUCT['linked']:
+        linked_names = ['[[' + s + ']]' for _, s in dfgf[name].items()]
+        dfgf[name] = linked_names
+    return dfgf
+
+def dfgf2dfob(dfgf: pd.DataFrame, TBL_STRUCT: dict) -> pd.DataFrame:
+    ''' Копія таблиці зі скороченими назвами стовпчиків - назви міток 
+    фронтматерії. Таблиця готується для формування нотаток Обсідіан.
+    '''
+    # Пряма і зворотня мапи (мітки нотаток Обсідіан) <--> (назви стовпчиків таблиці Гугл Форми)
+    dfob_cols = TBL_STRUCT['label_refs']
+    dfob_cols_i = {v: k for k, v in dfob_cols.items()}
+
+    dfob = dfgf.copy()
+    dfob.rename(columns=dfob_cols_i, inplace=True)
+    if 'title' not in dfob.columns:
+        dfob['title'] = dfgf[dfob_cols['title']]
+    return dfob, dfob_cols
+
+def check_duplicates(dfob: pd.DataFrame, dfgf: pd.DataFrame, table: str, dfob_cols: dict):
+    ''' Перевірка відсутності дублікатів імен нотаток '''
+    idx_dfob_dupl = dfob.duplicated(subset='title', keep=False)
+    dfgf_dupl = dfgf.loc[idx_dfob_dupl]
+    if len(dfgf_dupl) > 0:
+        print(f'🚩 У таблиці {table} виявлені дублікати назв нотаток:')
+        print(dfgf[dfob_cols['title']].to_markdown())
+        sys.exit('⚠️ Усуньте дублікати і повторіть спробу.')
+    return
+
