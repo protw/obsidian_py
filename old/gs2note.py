@@ -1,6 +1,6 @@
 import pandas as pd
 
-from obsidian_util_cl import GS2ON_Convertor
+import obsidian_util as ou
 
 folders = {
     'base': 'D:/boa_uniteam',
@@ -10,34 +10,33 @@ folders = {
     }
 
 # Яку таблицю зчитуємо
-table = 'persons'
+table = 'teams'
 
-# Ініціюємо конвертор. Встановлюємо повні шляхи до фолдерів коду і даних
-conv = GS2ON_Convertor(folders)
+# Встановлюємо повні шляхи до фолдерів коду і даних
+code_dir, data_dir = ou.set_dirs(folders)
 
 # Зчитуємо вхідні дані з таблиці Гугл Форми і опис її конвертування до Обсідіан
-conv.read_gs_table(table)
-
-# Валідація структури вх. таблиці Гугл Форми і словника з описом конвертування 
-# цієї таблиці до Обсідіан
-conv.check_table_struct()
+dfgf, TBL_STRUCT = ou.read_check_gs_table(table, code_dir)
 
 # Перетворення значень стовпчиків зі списку `TBL_STRUCT['pers_name']` з 
 # вхідного датафрейму: "Прізвище Ім'я По-батькові" -> "Ім'я Прізвище"
-conv.pib2ip()
+dfgf = ou.pib2ip(dfgf, TBL_STRUCT)
 
 # Перетворення значень стовпчиків зі списку `TBL_STRUCT['linked']` з 
 # вхідного датафрейму у внутрішнє Обсідіан-посилання: name -> [[name]]
-conv.make_linked()
+dfgf = ou.make_linked(dfgf, TBL_STRUCT)
 
 # Копія таблиці зі скороченими назвами стовпчиків
-conv.dfgf2dfob()
+dfob, dfob_cols = ou.dfgf2dfob(dfgf, TBL_STRUCT)
 
 # Перевірка відсутності дублікатів імен нотаток
-conv.check_duplicates()
+ou.check_duplicates(dfob, dfgf, table, dfob_cols)
 
 #dfob_cols['title']
-conv.dfob['Позначка часу'] = pd.to_datetime(conv.dfob['Позначка часу'])
+dfob['Позначка часу'] = pd.to_datetime(dfob['Позначка часу'])
 
 
 
+#dfob_cols |= TBL_STRUCT['label_vals']
+
+#if TBL_STRUCT['sections']:

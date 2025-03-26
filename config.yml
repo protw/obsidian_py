@@ -27,8 +27,8 @@ teams:
     label_vals:
         tags: [команда, доробити]
         link: 
-        created: "%Y%m%d"
-        updated: "%Y%m%d %H%M"
+        created: "%Y-%m-%d"
+        updated: "%Y-%m-%d %H:%M"
 orgs:
     subdir: ORGS
     name: Організація (Відповіді)
@@ -58,8 +58,8 @@ orgs:
         web: Веб-сторінка
     label_vals:
         tags: [організація, доробити]
-        created: "%Y%m%d"
-        updated: "%Y%m%d %H%M"
+        created: "%Y-%m-%d"
+        updated: "%Y-%m-%d %H:%M"
 persons:
     subdir: PERSONS
     name: Персона (Відповіді)
@@ -84,8 +84,8 @@ persons:
         position: Посада
     label_vals:
         tags: [персона, доробити]
-        created: "%Y%m%d"
-        updated: "%Y%m%d %H%M"
+        created: "%Y-%m-%d"
+        updated: "%Y-%m-%d %H:%M"
 proj:
     subdir: PROJ
     name: Проєктна ідея (Відповіді)
@@ -115,5 +115,5 @@ proj:
         tags: [проєкт/ідея, доробити]
         scope: 
         link: 
-        created: "%Y%m%d"
-        updated: "%Y%m%d %H%M"
+        created: "%Y-%m-%d"
+        updated: "%Y-%m-%d %H:%M"
