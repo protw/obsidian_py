@@ -246,7 +246,8 @@ class GS2ON_Convertor():
 
     def complete_obs_table(self):
         ''' Завершення підготовки Обсідіан таблиці перед конвертацією у нотатки '''
-        self.dfob['Позначка часу'] = pd.to_datetime(self.dfob['Позначка часу'])
+        self.dfob['Позначка часу'] = pd.to_datetime(self.dfob['Позначка часу'], 
+                                                    dayfirst=True)
 
         # Дадаємо стовпчики 'label_vals' з постійними значеннями
         for k, v in self.TBL_STRUCT['label_vals'].items():
