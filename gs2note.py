@@ -29,7 +29,7 @@ class GS2ON_Convertor():
                  is_clean_writing: bool=True):
         ''' Встановлюємо повні шляхи до фолдерів коду і даних '''
         # Кореневі дректорії компа
-        base = folders['drive_base']
+        base = folders['base']
         vaults_base = folders['vaults_base']
         self.vault = folders['vault_dir']
         
