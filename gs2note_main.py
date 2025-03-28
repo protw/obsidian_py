@@ -4,7 +4,7 @@ from gs2note import GS2ON_Convertor
 
 IN_COLAB = 'google.colab' in sys.modules
 
-def run(table: str, folders: dict={}, cond: dict={})
+def run(table: str, folders: dict={}, cond: dict={}):
     if not folders:
         if IN_COLAB:
             folders = {
