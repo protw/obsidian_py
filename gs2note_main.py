@@ -9,14 +9,14 @@ if IN_COLAB:
         'base': '/content/drive',
         'vaults_base': '/MyDrive/OBSIDIAN/',
         'code_dir': 'obsidian-py/',
-        'data_dir': 'NECU/'
+        'vault_dir': 'NECU/'
         }
     from google.colab import drive
     # монтування Гугл Диску
     drive.mount(folders['base'])
 else:
     folders = {
-        'drive_base': 'D:/boa_uniteam/',
+        'base': 'D:/boa_uniteam/',
         'vaults_base': 'OBSIDIAN/',
         'code_dir': 'obsidian-py/',
         'vault_dir': 'NECU/'
