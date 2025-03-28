@@ -30,11 +30,12 @@ class GS2ON_Convertor():
         ''' Встановлюємо повні шляхи до фолдерів коду і даних '''
         # Кореневі дректорії компа
         base = folders['drive_base']
+        vaults_base = folders['vaults_base']
         self.vault = folders['vault_dir']
         
         # Конфігурація робочих директорій
-        self.code_dir = base + folders['vaults_base'] + folders['code_dir']
-        self.vault_dir = base + folders['vaults_base'] + self.vault
+        self.code_dir = base + vaults_base + folders['code_dir']
+        self.vault_dir = base + vaults_base + folders['vault_dir']
         
         # Умови запуску
         self.is_dupl_in_vault = is_dupl_in_vault
