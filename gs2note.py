@@ -24,18 +24,18 @@ class GS2ON_Convertor():
                        'not_required', 'pers_name', 'linked', 'label_refs', 
                        'label_vals', 'gs_id']
 
-    def __init__(self, folders: dict, is_dupl_in_vault: bool=True, 
+    def __init__(self, vault: str, folders: dict, is_dupl_in_vault: bool=True, 
                  is_dupl_in_table: bool=True, not_write_dupl: bool=True,
                  is_clean_writing: bool=True):
         ''' Встановлюємо повні шляхи до фолдерів коду і даних '''
         # Кореневі дректорії компа
         base = folders['base']
         vaults_base = folders['vaults_base']
-        self.vault = folders['vault_dir']
+        self.vault = vault
         
         # Конфігурація робочих директорій
         self.code_dir = base + vaults_base + folders['code_dir']
-        self.vault_dir = base + vaults_base + folders['vault_dir']
+        self.vault_dir = base + vaults_base + vault + '/'
         
         # Умови запуску
         self.is_dupl_in_vault = is_dupl_in_vault
@@ -325,12 +325,33 @@ class GS2ON_Convertor():
         # Створення нотаток у сховищі Обсідіан з вх. таблиці Гугл Форм
         self.create_notes()
 
+IN_COLAB = 'google.colab' in sys.modules
+
+def run(vault: str, table: str, folders: dict, cond: dict) -> GS2ON_Convertor:
+    if IN_COLAB:
+        from google.colab import drive
+        # монтування Гугл Диску
+        drive.mount(folders['base'])
+
+    # Ініціюємо конвертор. Встановлюємо повні шляхи до фолдерів коду і даних
+    conv = GS2ON_Convertor(vault, folders, **cond)
+    
+    print('ВХІДНІ ПАРАМЕТРИ\n'
+          f'✅ Фолдер Обсідіан-сховища: {conv.vault_dir}\n'
+          f'✅ Фолдер налаштувань: {conv.code_dir}\n'
+          f'✅ Тип конвертованої таблиці: {table}\n'
+          'ЗАПУСК КОНВЕРТОРА')
+    
+    # Основоний метод класу `GS2ON_Convertor`
+    conv.main(table)
+    
+    return conv
+
 if __name__ == '__main__':
     folders = {
-        'drive_base': 'D:/boa_uniteam/',
+        'base': 'D:/boa_uniteam/',
         'vaults_base': 'OBSIDIAN/',
-        'code_dir': 'obsidian-py/',
-        'vault_dir': 'NECU/'
+        'code_dir': 'obsidian-py/'
         }
     cond = {
         'is_dupl_in_vault': False, # Рекомендовано True, за замовчанням
@@ -340,11 +361,11 @@ if __name__ == '__main__':
         'is_clean_writing': False  # За замовчанням True
         }
 
+    # Обсідіан сховище
+    vault = 'NECU'
+
     # Яку таблицю зчитуємо
     table = 'persons'
 
-    # Ініціюємо конвертор. Встановлюємо повні шляхи до фолдерів коду і даних
-    conv = GS2ON_Convertor(folders, **cond)
-
-    # Основоний метод класу `GS2ON_Convertor`
-    conv.main(table)
+    # Запуск конвертора
+    conv = run(vault=vault, table=table, folders=folders, cond=cond)
