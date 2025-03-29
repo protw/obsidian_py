@@ -5,15 +5,12 @@ from gs2note import GS2ON_Convertor
 IN_COLAB = 'google.colab' in sys.modules
 
 def run(table: str, folders: dict={}, cond: dict={}):
-    if not folders:
-        if IN_COLAB:
+    if IN_COLAB:
+        if not folders:
             folders = {
                 'base': '/content/drive',
                 'vaults_base': '/MyDrive/OBSIDIAN/'
                 }
-            from google.colab import drive
-            # монтування Гугл Диску
-            drive.mount(folders['base'])
         else:
             folders = {
                 'base': 'D:/boa_uniteam/',
@@ -21,6 +18,11 @@ def run(table: str, folders: dict={}, cond: dict={}):
                 }
         folders['code_dir'] = 'obsidian-py/'
         folders['vault_dir'] = 'NECU/'
+
+        from google.colab import drive
+        # монтування Гугл Диску
+        drive.mount(folders['base'])
+
     if not cond:
         cond = {
             'is_dupl_in_vault': False, # Рекомендовано True, за замовчанням
