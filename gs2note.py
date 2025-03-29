@@ -46,9 +46,6 @@ class GS2ON_Convertor():
         # Перевірка дублікатів назв нотаток у сховищі Обсідіан
         self.check_dupl_in_vault()
         
-        # надання доступу до фолдера коду
-        #sys.path.insert(0, self.code_dir)
-        
         # Константи алгоритму
         self.config_file = self.code_dir + 'config.yml'
         self.config_gs_file = self.code_dir + 'config_gs.yml'
