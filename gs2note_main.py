@@ -13,10 +13,10 @@ def run(vault: str, table: str, folders: dict, cond: dict) -> GS2ON_Convertor:
     # Ініціюємо конвертор. Встановлюємо повні шляхи до фолдерів коду і даних
     conv = GS2ON_Convertor(folders, **cond)
     
-    print('ВХІДНІ ПАРАМЕТРИ'
+    print('ВХІДНІ ПАРАМЕТРИ\n'
           f'✅ Фолдер Обсідіан-сховища: {conv.vault_dir}\n'
           f'✅ Фолдер налаштувань: {conv.code_dir}\n'
-          f'✅ Тип конвертованої таблиці: {table}'
+          f'✅ Тип конвертованої таблиці: {table}\n'
           'ЗАПУСК КОНВЕРТОРА')
     
     # Основоний метод класу `GS2ON_Convertor`
