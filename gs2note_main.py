@@ -9,19 +9,21 @@ def run(table: str, folders: dict={}, cond: dict={}):
         if not folders:
             folders = {
                 'base': '/content/drive',
-                'vaults_base': '/MyDrive/OBSIDIAN/'
+                'vaults_base': '/MyDrive/OBSIDIAN/',
+                'code_dir': 'obsidian-py/',
+                'vault_dir': 'NECU/'
                 }
-        else:
-            folders = {
-                'base': 'D:/boa_uniteam/',
-                'vaults_base': 'OBSIDIAN/'
-                }
-        folders['code_dir'] = 'obsidian-py/'
-        folders['vault_dir'] = 'NECU/'
-
         from google.colab import drive
         # монтування Гугл Диску
         drive.mount(folders['base'])
+    else:
+        if not folders:
+            folders = {
+                'base': 'D:/boa_uniteam/',
+                'vaults_base': 'OBSIDIAN/',
+                'code_dir': 'obsidian-py/',
+                'vault_dir': 'NECU/'
+                }
 
     if not cond:
         cond = {
