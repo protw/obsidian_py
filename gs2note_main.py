@@ -31,7 +31,7 @@ def run(table: str, folders: dict={}, cond: dict={}):
             }
     print(folders)
     print(cond)
-    
+
     # Ініціюємо конвертор. Встановлюємо повні шляхи до фолдерів коду і даних
     conv = GS2ON_Convertor(folders, **cond)
     
