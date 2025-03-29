@@ -37,6 +37,8 @@ def run(table: str, folders: dict={}, cond: dict={}):
     
     # Основоний метод класу `GS2ON_Convertor`
     conv.main(table)
+    
+    return conv
 
 if __name__ == '__main__':
     # Яку таблицю зчитуємо
