@@ -1,4 +1,5 @@
 import sys
+from google.colab import drive
 
 from gs2note import GS2ON_Convertor
 
@@ -9,20 +10,17 @@ def run(table: str, folders: dict={}, cond: dict={}):
         if IN_COLAB:
             folders = {
                 'base': '/content/drive',
-                'vaults_base': '/MyDrive/OBSIDIAN/',
-                'code_dir': 'obsidian-py/',
-                'vault_dir': 'NECU/'
+                'vaults_base': '/MyDrive/OBSIDIAN/'
                 }
-            from google.colab import drive
             # монтування Гугл Диску
             drive.mount(folders['base'])
         else:
             folders = {
                 'base': 'D:/boa_uniteam/',
-                'vaults_base': 'OBSIDIAN/',
-                'code_dir': 'obsidian-py/',
-                'vault_dir': 'NECU/'
+                'vaults_base': 'OBSIDIAN/'
                 }
+        folders['code_dir'] = 'obsidian-py/'
+        folders['vault_dir'] = 'NECU/'
     if not cond:
         cond = {
             'is_dupl_in_vault': False, # Рекомендовано True, за замовчанням
@@ -31,6 +29,8 @@ def run(table: str, folders: dict={}, cond: dict={}):
             'not_write_dupl':   False,  # Рекомендовано True, за замовчанням
             'is_clean_writing': False  # За замовчанням True
             }
+    print(folders)
+    print(cond)
     
     # Ініціюємо конвертор. Встановлюємо повні шляхи до фолдерів коду і даних
     conv = GS2ON_Convertor(folders, **cond)
