@@ -1,5 +1,4 @@
 import sys
-from google.colab import drive
 
 from gs2note import GS2ON_Convertor
 
@@ -12,6 +11,7 @@ def run(table: str, folders: dict={}, cond: dict={}):
                 'base': '/content/drive',
                 'vaults_base': '/MyDrive/OBSIDIAN/'
                 }
+            from google.colab import drive
             # монтування Гугл Диску
             drive.mount(folders['base'])
         else:
@@ -44,4 +44,6 @@ if __name__ == '__main__':
     # Яку таблицю зчитуємо
     table = 'persons'
     
-    run(table)
+    conv = run(table)
+    
+    print(conv.config_file)
