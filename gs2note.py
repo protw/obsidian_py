@@ -47,7 +47,7 @@ class GS2ON_Convertor():
         self.check_dupl_in_vault()
         
         # надання доступу до фолдера коду
-        sys.path.insert(0, self.code_dir)
+        #sys.path.insert(0, self.code_dir)
         
         # Константи алгоритму
         self.config_file = self.code_dir + 'config.yml'
