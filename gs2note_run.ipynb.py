@@ -7,6 +7,17 @@ Original file is located at
     https://colab.research.google.com/drive/1eVn-DxLXuxSz92FBhsLonesv2elvMQqi
 
 ## Конвертування Google Sheets таблиці у Obsidian нотатки
+
+GS2NOTE.PY -- Конвертор рядків таблиці Google Sheets (отриманої
+з допомогою Google Form) у нотатки Obsidian. Налаштування і запуск ковертора
+здійснюється двома мпособами:
+
+1. з локального компа: $ python gs2note_run.py
+2. у середовищі Google Colab: через запуск Jupyter Notebook `gs2note_run.ipynb`
+
+Репозитарій: https://github.com/protw/obsidian_py<br>
+Автор: https://protw.github.io/oleghbond<br>
+Версія: 0.2 / Дата: 2025-03-29 / Ліцензія: GPL
 """
 
 # @title Вхідні параметри

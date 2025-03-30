@@ -1,3 +1,14 @@
+descr = ''' GS2NOTE.PY -- Конвертор рядків таблиці Google Sheets (отриманої
+з допомогою Google Form) у нотатки Obsidian. Налаштування і запуск ковертора
+здійснюється двома мпособами:
+1) з локального компа: $ python gs2note_run.py
+2) у середовищі Google Colab: через запуск Jupyter Notebook `gs2note_run.ipynb`
+
+Репозитарій: https://github.com/protw/obsidian_py
+Автор: https://protw.github.io/oleghbond
+Версія: 0.2 / Дата: 2025-03-29 / Ліцензія: GPL
+'''
+
 from pathlib import Path
 import yaml
 import pandas as pd
@@ -243,13 +254,18 @@ class GS2ON_Convertor():
 
     def complete_obs_table(self):
         ''' Завершення підготовки Обсідіан таблиці перед конвертацією у нотатки '''
-        self.dfob['Позначка часу'] = pd.to_datetime(self.dfob['Позначка часу'], 
-                                                    dayfirst=True)
+
+        # Через те, що таблиця сгенерована в Google Forms, перший стовпчик це 
+        # дата-час створення рядка. Назва стовпчика українською "Позначка часу" 
+        # і залежить від місцевих налаштувань (локалізації). Тому краще звертатися
+        # до цього стовпчика за індексом 0.
+        self.dfob[self.dfob.columns[0]] = pd.to_datetime(self.dfob.iloc[:,0], 
+                                                         dayfirst=True)
 
         # Дадаємо стовпчики 'label_vals' з постійними значеннями
         for k, v in self.TBL_STRUCT['label_vals'].items():
             if (k == 'created') or (k == 'updated'):
-                self.dfob[k] = self.dfob['Позначка часу'].dt.strftime(v)
+                self.dfob[k] = self.dfob[self.dfob.columns[0]].dt.strftime(v)
             else:
                 self.dfob[k] = str(v)
 
@@ -328,6 +344,8 @@ class GS2ON_Convertor():
 IN_COLAB = 'google.colab' in sys.modules
 
 def run(vault: str, table: str, folders: dict, cond: dict) -> GS2ON_Convertor:
+    print(descr)
+    
     if IN_COLAB:
         from google.colab import drive
         # монтування Гугл Диску
