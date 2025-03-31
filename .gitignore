@@ -1,6 +1,7 @@
 **/desktop.ini
 /__pycache__/
 /.spyproject/
+/old/
 credentials.json
 config_gs.yml
 gs2note_run.py

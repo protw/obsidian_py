@@ -309,7 +309,7 @@ class GS2ON_Convertor():
         for _, row in self.dfob.iterrows():
             create_note(row)
 
-        print(f'✅ У субфолдері {self.vault + notes_subdir} створено '
+        print(f'✅ У субфолдері {self.vault + "/" + notes_subdir} створено '
               f'{len(self.dfob)} нотаток: {list(self.dfob.title)}')
 
     def main(self, table: str):
