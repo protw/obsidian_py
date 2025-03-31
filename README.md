@@ -265,6 +265,7 @@ conv = gs2note.run(vault=vault, table=table, folders=folders, cond=cond)
 4. в результаті успішного виконання у вас з'явиться щось подібне до цього:
 
    ```
+   ВХІДНІ ПАРАМЕТРИ
    ✅ Фолдер Обсідіан-сховища: /content/drive/MyDrive/OBSIDIAN/NECU/
    ✅ Фолдер налаштувань: /content/drive/MyDrive/OBSIDIAN/obsidian-py/
    ✅ Тип конвертованої таблиці: persons
