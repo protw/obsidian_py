@@ -1,6 +1,6 @@
 # Від Google Forms до нотаток Obsidian
 
-250330
+2025-03-30, [версія статті на Medium](https://medium.com/p/55d4b57a92b4)
 
 ![Загальний алгоритм GS2NOTES](doc/Загальний_алгоритм_GS2NOTES.png)
 
